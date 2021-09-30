@@ -1,6 +1,6 @@
 function compareArrays(arr1, arr2) {
     let result;
-    result = arr1.every((n, i) => n === arr2[i]);
+    result = arr1.every((n, i) => n === arr2[i] && arr1.length === arr2.length);
     return result; // boolean
 }
 console.log(compareArrays([8, 9], [6]));
@@ -11,8 +11,7 @@ console.log(compareArrays([8, 1, 2], [8, 1, 2]));
 
 
 function advancedFilter(arr) {
-    let resultArr;
-    resultArr = arr.filter((i) => i > 0).filter((i) => i % 3 == 0).map((i) => i * 10);
+    let resultArr = arr.filter((i) => i > 0).filter((i) => i % 3 == 0).map((i) => i * 10);
     return resultArr; // array
 }
 console.log(advancedFilter([-1, 6, -9, 3]));
