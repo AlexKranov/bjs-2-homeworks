@@ -144,9 +144,7 @@ class Student {
             if (this.marks.hasOwnProperty(subject) === false) {
                 this.marks[subject] = [];
                 this.marks[subject].push(grade);
-            } else {
-                this.marks[subject].push(grade);
-            };
+            }
         } else {
             console.log(`Ошибка, оценка должна быть числом от 1 до 5`);
         };
