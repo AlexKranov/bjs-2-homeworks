@@ -3,14 +3,14 @@
 //Задача 1
 
 class PrintEditionItem {
-    constructor (name, releaseDate, pagesCount) {
+    constructor(name, releaseDate, pagesCount) {
         this.name = name;
         this.releaseDate = releaseDate;
         this.pagesCount = pagesCount;
         this.state = 100;
         this.type = null;
     }
-    
+
     fix() {
         this.state = this.state * 1.5;
         return this.state;
@@ -40,14 +40,14 @@ sherlock.fix();
 console.log(sherlock.state); //100
 
 class Magazine extends PrintEditionItem {
-    constructor (name, releaseDate, pagesCount) {
+    constructor(name, releaseDate, pagesCount) {
         super(name, releaseDate, pagesCount);
         this.type = "magazine";
     }
 }
 
 class Book extends PrintEditionItem {
-    constructor (author, name, releaseDate, pagesCount) {
+    constructor(author, name, releaseDate, pagesCount) {
         super(name, releaseDate, pagesCount);
         this.author = author;
         this.type = "book";
@@ -55,26 +55,26 @@ class Book extends PrintEditionItem {
 }
 
 class NovelBook extends Book {
-    constructor (author, name, releaseDate, pagesCount) {
+    constructor(author, name, releaseDate, pagesCount) {
         super(author, name, releaseDate, pagesCount);
         this.type = "novel";
     }
 }
 
 class FantasticBook extends Book {
-    constructor (author, name, releaseDate, pagesCount) {
+    constructor(author, name, releaseDate, pagesCount) {
         super(author, name, releaseDate, pagesCount);
         this.type = "fantastic";
     }
 }
 
 class DetectiveBook extends Book {
-    constructor (author, name, releaseDate, pagesCount) {
+    constructor(author, name, releaseDate, pagesCount) {
         super(author, name, releaseDate, pagesCount);
         this.type = "detective";
     }
 }
-    
+
 const picknick = new FantasticBook("Аркадий и Борис Стругацкие", "Пикник на обочине", 1972, 168);
 
 console.log(picknick.author); //"Аркадий и Борис Стругацкие"
@@ -85,8 +85,8 @@ console.log(picknick.state); //15
 
 //Задача 2
 
-class Library extends PrintEditionItem { 
-    constructor (name, releaseDate, pagesCount) {
+class Library extends PrintEditionItem {
+    constructor(name, releaseDate, pagesCount) {
         super(releaseDate, pagesCount);
         this.name = name;
         this.books = [];
@@ -99,18 +99,18 @@ class Library extends PrintEditionItem {
     }
 
     findBookBy(type, value) {
-        for(let i = 0; i < this.books.length; i++) {
-            if(this.books[i][type] === value) {
+        for (let i = 0; i < this.books.length; i++) {
+            if (this.books[i][type] === value) {
                 return this.books[i];
-            } 
+            }
         }
         return null;
     }
 
     giveBookByName(bookName) {
-        for(let i = 0; i < this.books.length; i++) {
+        for (let i = 0; i < this.books.length; i++) {
             if (this.books[i].name === bookName) {
-                 return  this.books.splice(i, 1)[0];
+                return this.books.splice(i, 1)[0];
             }
         }
         return null;
@@ -130,3 +130,68 @@ console.log(library.findBookBy("releaseDate", 1924).name); //"Мурзилка"
 console.log("Количество книг до выдачи: " + library.books.length); //Количество книг до выдачи: 4
 library.giveBookByName("Машина времени");
 console.log("Количество книг после выдачи: " + library.books.length); //Количество книг после выдачи: 3
+
+
+//Задача 3
+class Student {
+    constructor(name) {
+        this.name = name;
+        this.marks = {};
+    };
+
+    addMark(grade, subject) {
+        if ((1 <= grade && grade <= 5) && (typeof grade === 'number')) {
+            if (this.marks.hasOwnProperty(subject) === false) {
+                this.marks[subject] = [];
+                this.marks[subject].push(grade);
+            } else {
+                this.marks[subject].push(grade);
+            };
+        } else {
+            console.log(`Ошибка, оценка должна быть числом от 1 до 5`);
+        };
+    };
+
+    getAverageBySubject(subject) {
+        if (this.marks.hasOwnProperty(subject) === false) {
+            console.log(`Несуществующий предмет`);
+            return 0;
+        } else {
+            const sum = this.marks[subject].reduce(function(item, value) {
+                return item + value;
+            });
+            console.log(`Средний балл по предмету ${subject} ${sum / this.marks[subject].length}`);
+            return sum / this.marks[subject].length;
+        };
+    };
+
+    getAverage() {
+        if (Object.keys(this.marks).length > 0) {
+            let sum = 0;
+            for (const key in this.marks) {
+                let value = this.getAverageBySubject(key);
+                sum += value;
+            };
+            console.log(`Средний балл по всем предметам ${sum / Object.keys(this.marks).length}`);
+            return sum / Object.keys(this.marks).length;
+        } else {
+            return 0;
+        };
+    };
+
+    exclude(reason) {
+        delete this.subject;
+        delete this.marks;
+        this.excluded = reason;
+    };
+};
+
+const student = new Student("Олег Никифоров");
+student.addMark(5, "algebra");
+student.addMark(5, "algebra");
+student.addMark(5, "geometry");
+student.addMark(4, "geometry");
+student.addMark(6, "geometry"); // "Ошибка, оценка должна быть числом от 1 до 5"
+student.getAverageBySubject("geometry"); // Средний балл по предмету geometry 4.5
+student.getAverageBySubject("biology"); // Несуществующий предмет
+student.getAverage(); // Средний балл по всем предметам 4.75
