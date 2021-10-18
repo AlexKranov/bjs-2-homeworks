@@ -1,21 +1,20 @@
 function cachingDecoratorNew(func) {
-    let cash = [];
+    let cache = [];
 
     function wrapper(...args) {
         const hash = args.join(',');
-        let checkIndex = cash.findIndex((item) => item.hash === hash);
-        if (checkIndex !== -1) {
-            console.log(`Из кэша: ${cash[checkIndex].result}`);
-            return `Из кэша: ${cash[checkIndex].result}`;
+        let idx = cache.findIndex((item) => item.hash === hash);
+        if (idx !== -1) {
+            console.log("Из кэша: " + cache[idx].result);
+            return "Из кэша: " + cache[idx].result;
         };
         let result = func(...args);
-        cash.push({ hash, result });
-        if (cash.length > 5) {
-            cash.shift();
-            console.log(`Удален элемент`);
+        cache.push({ hash, result });
+        if (cache.length > 5) {
+            cache.shift();
         };
-        console.log(`Вычисляем: ${result}`);
-        return `Вычисляем: ${result}`;
+        console.log("Вычисляем: " + result);
+        return "Вычисляем: " + result;
     };
     return wrapper;
 };
